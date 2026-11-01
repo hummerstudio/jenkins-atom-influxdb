@@ -1,0 +1,239 @@
+{
+  "atomCode": "influxdb",
+  "name": "InfluxDB build metrics",
+  "version": "1.0.0",
+  "description": "Writes this build's metrics (jenkins_data point) to InfluxDB over the v1, v2 or v3 write API as line protocol.",
+  "execution": {
+    "packagePath": "influxdb.jar",
+    "language": "java",
+    "target": "$atom_java_path -cp influxdb.jar com.jenkinschina.atom.sdk.AtomRunner"
+  },
+  "input": {
+    "url": {
+      "label": "InfluxDB 地址（如 http://influxdb:8086）",
+      "type": "vuex-input",
+      "default": ""
+    },
+    "apiVersion": {
+      "label": "写入 API 版本（auto / 1 / 2 / 3；auto: 有 org → 2，有 token → 3，否则 1）",
+      "type": "vuex-input",
+      "default": "auto"
+    },
+    "organization": {
+      "label": "组织（v2）",
+      "type": "vuex-input",
+      "default": ""
+    },
+    "bucket": {
+      "label": "Bucket（v2）",
+      "type": "vuex-input",
+      "default": ""
+    },
+    "database": {
+      "label": "数据库（v1/v3）",
+      "type": "vuex-input",
+      "default": ""
+    },
+    "retentionPolicy": {
+      "label": "保留策略（v1/v3，可空）",
+      "type": "vuex-input",
+      "default": ""
+    },
+    "token": {
+      "label": "Token（v2 用 Token 头，v3 用 Bearer）",
+      "type": "password",
+      "default": ""
+    },
+    "username": {
+      "label": "用户名（v1 Basic，可空）",
+      "type": "vuex-input",
+      "default": ""
+    },
+    "password": {
+      "label": "密码（v1 Basic，可空）",
+      "type": "password",
+      "default": ""
+    },
+    "measurementName": {
+      "label": "measurement 名（默认 jenkins_data）",
+      "type": "vuex-input",
+      "default": "jenkins_data"
+    },
+    "projectPath": {
+      "label": "项目路径（默认 ${JOB_NAME}，作为 project_path）",
+      "type": "vuex-input",
+      "default": "${JOB_NAME}"
+    },
+    "projectName": {
+      "label": "project_name（留空取 projectPath 最后一段）",
+      "type": "vuex-input",
+      "default": ""
+    },
+    "customPrefix": {
+      "label": "前缀（prefix 标签，拼进 project_name）",
+      "type": "vuex-input",
+      "default": ""
+    },
+    "instance": {
+      "label": "Jenkins 根地址（instance 标签）",
+      "type": "vuex-input",
+      "default": ""
+    },
+    "buildNumber": {
+      "label": "构建号（默认 ${BUILD_NUMBER}）",
+      "type": "vuex-input",
+      "default": "${BUILD_NUMBER}"
+    },
+    "buildResult": {
+      "label": "构建结果 SUCCESS/UNSTABLE/FAILURE/NOT_BUILT/ABORTED（默认 ${BUILD_STATUS}）",
+      "type": "vuex-input",
+      "default": "${BUILD_STATUS}"
+    },
+    "buildStatusMessage": {
+      "label": "状态描述（如 stable / back to normal）",
+      "type": "vuex-input",
+      "default": ""
+    },
+    "buildDurationMs": {
+      "label": "构建耗时毫秒（0 或空则用 now - 开始时间）",
+      "type": "vuex-input",
+      "default": ""
+    },
+    "buildScheduledTimeMs": {
+      "label": "开始时间（epoch 毫秒）",
+      "type": "vuex-input",
+      "default": ""
+    },
+    "buildExecTimeMs": {
+      "label": "开始执行时间（epoch 毫秒，留空同开始时间）",
+      "type": "vuex-input",
+      "default": ""
+    },
+    "agentName": {
+      "label": "节点名（默认 ${NODE_NAME}）",
+      "type": "vuex-input",
+      "default": "${NODE_NAME}"
+    },
+    "branchName": {
+      "label": "分支名（默认 ${BRANCH_NAME}）",
+      "type": "vuex-input",
+      "default": "${BRANCH_NAME}"
+    },
+    "buildCauser": {
+      "label": "触发者短描述",
+      "type": "vuex-input",
+      "default": ""
+    },
+    "buildUser": {
+      "label": "触发用户",
+      "type": "vuex-input",
+      "default": ""
+    },
+    "buildCause": {
+      "label": "触发原因（类名，逗号分隔）",
+      "type": "vuex-input",
+      "default": ""
+    },
+    "buildHealth": {
+      "label": "项目健康分（0-100，留空不写）",
+      "type": "vuex-input",
+      "default": ""
+    },
+    "lastSuccessfulBuild": {
+      "label": "最近成功构建号（默认 0）",
+      "type": "vuex-input",
+      "default": ""
+    },
+    "lastStableBuild": {
+      "label": "最近稳定构建号（默认 0）",
+      "type": "vuex-input",
+      "default": ""
+    },
+    "testsTotal": {
+      "label": "测试总数（留空则不写测试字段）",
+      "type": "vuex-input",
+      "default": ""
+    },
+    "testsFailed": {
+      "label": "失败数",
+      "type": "vuex-input",
+      "default": ""
+    },
+    "testsSkipped": {
+      "label": "跳过数",
+      "type": "vuex-input",
+      "default": ""
+    },
+    "customTags": {
+      "label": "额外标签（每行 key=value）",
+      "type": "textarea",
+      "default": ""
+    },
+    "customFields": {
+      "label": "额外字段（每行 key=value，数字/布尔按类型写）",
+      "type": "textarea",
+      "default": ""
+    },
+    "timestampMs": {
+      "label": "点的时间戳（epoch 毫秒，留空用当前时间）",
+      "type": "vuex-input",
+      "default": ""
+    },
+    "useScheduledTimeAsTimestamp": {
+      "label": "用开始时间作点时间戳（true/false）",
+      "type": "vuex-input",
+      "default": ""
+    },
+    "dryRun": {
+      "label": "只生成 line protocol 不发请求（true/false）",
+      "type": "vuex-input",
+      "default": ""
+    },
+    "failOnError": {
+      "label": "写入失败是否让构建失败（默认 true；插件默认吞掉）",
+      "type": "vuex-input",
+      "default": "true"
+    },
+    "timeoutSeconds": {
+      "label": "超时秒数",
+      "type": "vuex-input",
+      "default": "30"
+    }
+  },
+  "output": {
+    "written": {
+      "type": "string",
+      "description": "写入的点数（1，或 0 表示没发/dry run）"
+    },
+    "apiVersion": {
+      "type": "string",
+      "description": "实际使用的写入 API 版本"
+    },
+    "measurement": {
+      "type": "string",
+      "description": "measurement 名"
+    },
+    "endpoint": {
+      "type": "string",
+      "description": "请求路径"
+    },
+    "httpStatus": {
+      "type": "string",
+      "description": "HTTP 状态"
+    },
+    "timestamp": {
+      "type": "string",
+      "description": "点时间戳（纳秒）"
+    },
+    "lineProtocol": {
+      "type": "string",
+      "description": "实际发出的 line protocol（也是 dry run 的唯一产物）"
+    }
+  },
+  "x-jenkins": {
+    "protocol": "jenkins-1",
+    "requires": {
+      "runner": ">=0.4.0"
+    }
+  }
+}

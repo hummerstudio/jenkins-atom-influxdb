@@ -1,0 +1,11 @@
+{
+  "name": "InfluxDB build metrics",
+  "summary": "Writes the jenkins_data build point to InfluxDB v1/v2/v3 as line protocol, with the plugin's tags, fields and types.",
+  "author": "hummerstudio",
+  "license": "MIT",
+  "tags": [
+    "official-port",
+    "influxdb",
+    "metrics"
+  ]
+}
