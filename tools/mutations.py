@@ -70,17 +70,19 @@ def sdk_jar():
 def build(tree):
     env = dict(os.environ)
     env["SDK_JAR"] = str(sdk_jar())
-    proc = subprocess.run(["./build.sh"], cwd=tree, env=env, capture_output=True, text=True)
+    # the atom builds with Maven now: package (tests skipped) and take the shaded jar from target/
+    proc = subprocess.run(["mvn", "-B", "-q", "-ntp", "-DskipTests", "package"],
+                          cwd=tree, env=env, capture_output=True, text=True)
     if proc.returncode != 0:
         return None, proc.stderr[-1500:]
-    return tree / "dist" / "influxdb" / "influxdb.jar", proc.stdout
+    return tree / "target" / "influxdb.jar", proc.stdout
 
 
 def main():
     failures = 0
     for index, (name, old, new, case) in enumerate(MUTATIONS, 1):
         tree = pathlib.Path(tempfile.mkdtemp(prefix="influxdb-mut-")) / "atom"
-        shutil.copytree(HERE, tree, ignore=shutil.ignore_patterns("dist", ".git", "__pycache__"))
+        shutil.copytree(HERE, tree, ignore=shutil.ignore_patterns("dist", "target", ".git", "__pycache__"))
         source = tree / SOURCE.relative_to(HERE)
         text = source.read_text()
         if old not in text:

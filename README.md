@@ -82,7 +82,8 @@ run.
 
 ## Verification
 
-`tools/check.py` runs a fake InfluxDB that parses the line protocol with its own parser (escapes, tag and field
+`mvn verify` runs `src/test/java/atom/InfluxdbIT.java`, which starts a fake InfluxDB that parses the line
+protocol with its own parser (escapes, tag and field
 ordering, types, timestamp) and checks the auth header and query string of the version in use. It then recomputes the
 expected point from the atom's inputs - project name/namespace, ordinal, `build_successful`, which test fields must be
 absent, custom field types - and compares. 24 cases cover the three API versions, auth, auto-detection, escaping
